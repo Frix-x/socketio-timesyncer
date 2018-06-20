@@ -2,10 +2,10 @@ import { HrTimeData, HrTime } from './models';
 
 export class TimeSyncerClient {
 
-    private _socket: SocketIO.Socket;
+    private _socket: SocketIOClient.Socket;
     private _offsets: number[];
 
-    constructor(sckt: SocketIO.Socket) {
+    constructor(sckt: SocketIOClient.Socket) {
         this._socket = sckt;
         this._offsets = [];
 
@@ -33,7 +33,7 @@ export class TimeSyncerClient {
         if (this._offsets.length > 10) this._offsets.pop();
     }
 
-    public get socket(): SocketIO.Socket {
+    public get socket(): SocketIOClient.Socket {
         return this._socket;
     }
 

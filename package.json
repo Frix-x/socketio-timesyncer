@@ -3,13 +3,17 @@
   "version": "1.0.0",
   "description": "",
   "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "scripts": {
     "build": "tsc"
   },
-  "author": "",
-  "license": "ISC",
+  "author": "Félix Boisselier",
+  "license": "MIT",
   "devDependencies": {
-    "@types/socket.io": "^1.4.36",
     "typescript": "^2.9.2"
+  },
+  "dependencies": {
+    "@types/socket.io": "^1.4.36",
+    "@types/socket.io-client": "^1.4.32"
   }
 }
