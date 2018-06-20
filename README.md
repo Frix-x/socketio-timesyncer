@@ -10,20 +10,9 @@ NTP-like time synchronization library using `Socket.io`.
 npm install socketio-timesyncer
 ```
 
-## Client usage
-
-On the client, include:
-
-```Typescript
-xxxxxxx
-xxxxx
-xxxxxxxxxx
-xxxx
-```
-
 ## Server usage
 
-From anywhere that you have access to a socket.io instance.
+On the server, you need to open a socket and pass it to the `TimeSyncerServer` object.
 
 ```Typescript
 xxxxxxxx
@@ -31,4 +20,15 @@ xxx
 x
 xxxxxx
 x
+```
+
+## Client usage
+
+On the client, you need to connect to the server with `socket.io` and pass that socket to the `TimeSyncerClient` object.
+
+```Typescript
+xxxxxxx
+xxxxx
+xxxxxxxxxx
+xxxx
 ```
