@@ -1,44 +1,31 @@
-import { HrTimeData, HrTime } from './models';
+import { AbstractInnerClient } from './innerClient/AbstractInnerClient';
+import { McClient } from './innerClient/McClient';
+import { MsClient } from './innerClient/MsClient';
+
+export interface ClientOptions {
+    microTimePrecision?: boolean,
+    autoSync?: boolean,
+    autoSyncTime?: number
+}
 
 export class TimeSyncerClient {
 
-    private _socket: SocketIOClient.Socket;
-    private _offsets: number[];
+    private _innerClient: AbstractInnerClient;
 
-    constructor(sckt: SocketIOClient.Socket) {
-        this._socket = sckt;
-        this._offsets = [];
+    constructor(socket: SocketIOClient.Socket, options?: ClientOptions) {
+        if (options && options.microTimePrecision) this._innerClient = new McClient(socket);
+        else this._innerClient = new MsClient(socket);
 
-        this._socket.on('serverTimeSyncAnswer', (d: HrTimeData) => this.computeSync(d));
+        if (options && options.autoSync) {
+            setInterval(this._innerClient.synchronize(), options.autoSyncTime || 1000);
+        }
     }
 
     public synchronize(): void {
-        const timeDataToSend: HrTimeData = {
-            t0: process.hrtime(),
-            t1: [0, 0]
-        }
-        this._socket.emit('clientTimeSync', timeDataToSend);
-    }
-
-    private computeSync(d: HrTimeData) {
-        const hrTime: HrTime = process.hrtime();
-        const localNanoTime = hrTime[0] * 1e9 + hrTime[1];
-
-        const nanoT0 = d.t0[0] * 1e9 + d.t0[1];
-        const nanoT1 = d.t1[0] * 1e9 + d.t1[1];
-        
-        const diff = localNanoTime - nanoT1 + ((localNanoTime - nanoT0) / 2);
-
-        this._offsets.unshift(diff);
-        if (this._offsets.length > 10) this._offsets.pop();
-    }
-
-    public get socket(): SocketIOClient.Socket {
-        return this._socket;
+        this._innerClient.synchronize();
     }
 
     public get timeOffset(): number {
-        const sum = this._offsets.reduce((p, c) => p + c, 0);
-        return (sum / this._offsets.length);
+        return this._innerClient.timeOffset;
     }
 }

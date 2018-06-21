@@ -1,18 +1,18 @@
-import { HrTimeData } from './models';
+import * as microtime from 'microtime';
 
 export class TimeSyncerServer {
 
     private _socket: SocketIO.Socket;
 
-    constructor(sckt: SocketIO.Socket) {
-        this._socket = sckt;
+    constructor(socket: SocketIO.Socket) {
+        this._socket = socket;
 
-        this._socket.on('clientTimeSync', (d: HrTimeData) => {
-            const timeDataToSend: HrTimeData = {
-                t0: d.t0,
-                t1: process.hrtime()
-            };
-            this._socket.emit('serverTimeSyncAnswer', timeDataToSend);
+        this._socket.on('SyncMs', (t0: number) => {
+            this._socket.emit('AckMs', t0, Date.now());
+        });
+
+        this._socket.on('SyncMc', (t0: number) => {
+            this._socket.emit('AckMc', t0, microtime.now());
         });
     }
 

@@ -13,7 +13,9 @@
     "typescript": "^2.9.2"
   },
   "dependencies": {
+    "@types/microtime": "^2.1.0",
     "@types/socket.io": "^1.4.36",
-    "@types/socket.io-client": "^1.4.32"
+    "@types/socket.io-client": "^1.4.32",
+    "microtime": "^2.1.8"
   }
 }
