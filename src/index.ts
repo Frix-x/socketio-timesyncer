@@ -1,2 +1,2 @@
-export * from './TimeSyncerClient';
-export * from './TimeSyncerServer';
+export * from "./TimeSyncerClient";
+export * from "./TimeSyncerServer";
