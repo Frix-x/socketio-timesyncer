@@ -19,10 +19,9 @@ export class TimeSyncerClient {
     }
 
     if (options && options.autoSync) {
-      setInterval(
-        this._innerClient.synchronize(),
-        options.autoSyncTime || 1000
-      );
+      setInterval(() => {
+        this.synchronize();
+      }, options.autoSyncTime || 1000);
     }
   }
 
