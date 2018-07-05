@@ -1,6 +1,6 @@
 {
   "name": "socketio-timesyncer",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "NTP-like time synchronization library using Socket.io",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
